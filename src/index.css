@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  /* Prevent text selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  @apply bg-[#13141b] text-white;
+  -webkit-tap-highlight-color: transparent;
+  /* Remove fixed position to allow scrolling */
+  overflow-x: hidden;
+}
+
+/* Safe area inset support for iOS */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Hide scrollbar but keep functionality */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Better touch targets for mobile */
+.touch-target {
+  @apply min-h-[44px] min-w-[44px];
+}
+
+/* Native-like button active state */
+.active-state {
+  @apply active:opacity-60 transition-opacity duration-100;
+}
+
+/* Crypto colors */
+.text-btc { color: #F7931A; }
+.text-eth { color: #627EEA; }
+.text-bnb { color: #F3BA2F; }
+.text-sol { color: #00FFA3; }
+.text-xrp { color: #23292F; }
+.text-ada { color: #0033AD; }
+.text-avax { color: #E84142; }
+.text-doge { color: #C2A633; }
+.text-dot { color: #E6007A; }
+.text-link { color: #2A5ADA; }
+.text-uni { color: #FF007A; }
+.text-atom { color: #2E3148; }
+.text-ltc { color: #345D9D; }
+.text-op { color: #FF0420; }
+.text-xlm { color: #14B6E7; }
+.text-near { color: #000000; }
+.text-icp { color: #29ABE2; }
+.text-bch { color: #8DC351; }
+.text-inj { color: #18D496; }
+.text-fil { color: #0090FF; }
+.text-vet { color: #15B0F5; }
+.text-algo { color: #000000; }
+.text-grt { color: #6747ED; }
+.text-aave { color: #B6509E; }
+.text-qnt { color: #000000; }
+.text-theta { color: #2AB8E6; }
+.text-flow { color: #00EF8B; }
+.text-axs { color: #0055D5; }

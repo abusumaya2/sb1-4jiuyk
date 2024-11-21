@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isValidAmount(amount) {
+      return amount is number && amount > 0;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      
+      // User's notifications subcollection
+      match /notifications/{notificationId} {
+        allow read: if isOwner(userId);
+        allow write: if false; // Only written by server
+      }
+    }
+
+    // Referrals collection
+    match /referrals/{referralId} {
+      allow read: if isAuthenticated() &&
+        (resource.data.referrerId == request.auth.uid || 
+         resource.data.referredId == request.auth.uid);
+      allow write: if false; // Only managed by server
+    }
+
+    // Orders collection
+    match /orders/{orderId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+                   request.resource.data.userId == request.auth.uid &&
+                   isValidAmount(request.resource.data.amount);
+      allow update: if isAuthenticated() && 
+                   resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && 
+                   resource.data.userId == request.auth.uid;
+    }
+
+    // Mining collection
+    match /mining/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+      
+      match /history/{historyId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId);
+      }
+    }
+
+    // Leaderboard collection
+    match /leaderboard/{type} {
+      allow read: if true;
+      
+      match /users/{userId} {
+        allow read: if true;
+        allow write: if isOwner(userId);
+      }
+    }
+  }
+}
